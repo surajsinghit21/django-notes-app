@@ -27,7 +27,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-				'echo $App_Name'
+				echo "${App_Name}"
                 echo 'This is building code.'
                 echo 'user ----'
                 sh "whoami"
