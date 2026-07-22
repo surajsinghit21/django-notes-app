@@ -5,12 +5,19 @@ pipeline {
     options {
         timestamps()
     }
+
+    parameters {
+		string(name: 'FRONTEND_DOCKER_TAG', defaultValue: '', description: 'setting docker image tag')
+	}
     
     stages {
         stage('shared') {
             steps {
                 script {
                     hello()
+                    if (params.FRONTEND_DOCKER_TAG == '') {
+			            error("FRONTEND_DOCKER_TAG MUST BE PROVIDED")
+		            }
                 }
             }
         }
