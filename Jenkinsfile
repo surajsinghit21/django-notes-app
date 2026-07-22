@@ -25,6 +25,11 @@ pipeline {
                 }
             }
         }
+		stage('Trivy-check') {
+			steps {
+				sh "trivy fs ."
+			}
+		}
         stage('Build') {
             steps {
 				echo "${App_Name}"
