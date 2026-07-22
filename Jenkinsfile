@@ -39,6 +39,12 @@ pipeline {
                 echo 'This is Testing code.'
             }
         }
+		stage('OWASP-check') {
+			steps {
+				  dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'OWASP'
+  				  dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+			}
+		}
         stage('push image to docker hub') {
             steps {
                 echo 'This is pushing image.'
