@@ -6,18 +6,16 @@ pipeline {
         timestamps()
     }
 
-    parameters {
-		string(name: 'FRONTEND_DOCKER_TAG', defaultValue: '', description: 'setting docker image tag')
+	environment {
+		App_Name = 'Test-App CI/CD Pipeline'
 	}
-    
+	
     stages {
         stage('shared') {
             steps {
                 script {
+					'echo $APP_Name'
                     hello()
-                    if (params.FRONTEND_DOCKER_TAG == '') {
-			            error("FRONTEND_DOCKER_TAG MUST BE PROVIDED")
-		            }
                 }
             }
         }
