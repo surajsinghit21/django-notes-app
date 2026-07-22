@@ -14,7 +14,6 @@ pipeline {
         stage('shared') {
             steps {
                 script {
-					'echo $APP_Name'
                     hello()
                 }
             }
@@ -28,6 +27,7 @@ pipeline {
         }
         stage('Build') {
             steps {
+				echo $App_Name
                 echo 'This is building code.'
                 echo 'user ----'
                 sh "whoami"
