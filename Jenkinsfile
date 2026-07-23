@@ -64,18 +64,22 @@ pipeline {
     }
 
 	post {
-		failure {
-			emailext(
-				subject: "❌ Build Failed: ${JOB_NAME} #${BUILD_NUMBER}",
-				body: """
-					Build Failed.
-					
-					Job: ${JOB_NAME}
-					Build Number: ${Build_NUMBER}
-					URL: ${BUILD_URL}
-				""",
-				to: 'singhsuraj1321@gmail.com'
-			)
-		}
+		always {
+        emailext(
+            subject: "Jenkins Build: ${JOB_NAME} #${BUILD_NUMBER} - ${currentBuild.currentResult}",
+            mimeType: 'text/html',
+            body: """
+                <h2>Build Status: ${currentBuild.currentResult}</h2>
+
+                <table border="1" cellpadding="5">
+                    <tr><td><b>Job</b></td><td>${JOB_NAME}</td></tr>
+                    <tr><td><b>Build</b></td><td>#${BUILD_NUMBER}</td></tr>
+                    <tr><td><b>Status</b></td><td>${currentBuild.currentResult}</td></tr>
+                    <tr><td><b>URL</b></td><td><a href="${BUILD_URL}">Open Build</a></td></tr>
+                </table>
+            """,
+            to: 'singhsuraj1321@gmail.com'
+        )
+    }
 	}
 }
