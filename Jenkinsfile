@@ -44,12 +44,6 @@ pipeline {
                 echo 'This is Testing code.'
             }
         }
-		stage('OWASP-check') {
-			steps {
-				  dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'OWASP'
-  				  dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-			}
-		}
         stage('push image to docker hub') {
             steps {
                 echo 'This is pushing image.'
@@ -68,4 +62,20 @@ pipeline {
             }
         }
     }
+
+	post {
+		failure {
+			emailext(
+				subject: "❌ Build Failed: ${JOB_NAME} #${BUILD_NUMBER}",
+				body: """
+					Build Failed.
+					
+					Job: ${JOB_NAME}
+					Build Number: ${Build_NUMBER}
+					URL: ${BUILD_URL}
+				""",
+				to: 'singhsuraj1321@gmail.com'
+			)
+		}
+	}
 }
